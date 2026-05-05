@@ -1,0 +1,36 @@
+{% load static%}<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<link rel="stylesheet" href="{% static 'css/checkout.css' %}">
+    
+</head>
+
+<body>
+
+<h1>Your Cart</h1>
+
+<div class="cart-container">
+  {% for item in items %}
+    <div class="cart-item">
+      <div>
+        <p>{{ item.product.name }} (x{{ item.quantity }})</p>
+        <p>${{ item.total_price }}</p>
+      </div>
+      <a href="{% url 'remove_from_cart' item.id %}">Remove</a>
+    </div>
+  {% endfor %}
+</div>
+
+<h3 class="total">Total: ${{ total }}</h3>
+
+<div class="actions">
+  <a href="{% url 'checkout' %}" class="checkout-btn">Checkout</a>
+  <a href="{% url 'home' %}" class="continue-btn">Continue Shopping</a>
+</div>
+
+
+</body>
+</html>
