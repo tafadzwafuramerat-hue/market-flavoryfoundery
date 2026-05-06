@@ -3,12 +3,20 @@ from .models import Product, CartItem
 
 def home(request):
     products = Product.objects.all()
-    return render(request, 'shop/home.html', {'products': products})
+    cart_items_count = CartItem.objects.count()
+    return render(request, 'shop/home.html', {
+        'products': products,
+        'items': cart_items_count
+    })
 
 
 def product_detail(request, id):
     product = get_object_or_404(Product, id=id)
-    return render(request, 'shop/product_detail.html', {'product': product})
+    cart_items_count = CartItem.objects.count()
+    return render(request, 'shop/product_detail.html', {
+        'product': product,
+        'items': cart_items_count
+    })
 
 
 def add_to_cart(request, id):
@@ -23,7 +31,12 @@ def add_to_cart(request, id):
 def cart(request):
     items = CartItem.objects.all()
     total = sum(item.total_price() for item in items)
-    return render(request, 'shop/cart.html', {'items': items, 'total': total})
+    cart_items_count = items.count()
+    return render(request, 'shop/cart.html', {
+        'items': items,
+        'total': total,
+        'cart_count': cart_items_count
+    })
 
 
 def remove_from_cart(request, id):

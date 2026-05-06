@@ -1,36 +1,124 @@
-{% load static%}<!DOCTYPE html>
+{% load static %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-<link rel="stylesheet" href="{% static 'css/checkout.css' %}">
-    
+    <title>Shopping Cart - Flavor Foundry</title>
+    <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-
 <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-store"></i>
+                <span>Faffie</span>
+            </div>
+            <div class="nav-links">
+                <a href="{% url 'home' %}" class="nav-link"><i class="fas fa-home"></i> Home</a>
+                <a href="{% url 'cart' %}" class="nav-link active cart-link">
+                    <i class="fas fa-shopping-cart"></i> Cart
+                    <span class="cart-count">{{ cart_count }}</span>
+                </a>
+            </div>
+        </div>
+    </nav>
 
-<h1>Your Cart</h1>
+    <!-- Cart Section -->
+    <section class="cart-section">
+        <div class="container">
+            <h1 class="cart-title">Your Shopping Cart</h1>
 
-<div class="cart-container">
-  {% for item in items %}
-    <div class="cart-item">
-      <div>
-        <p>{{ item.product.name }} (x{{ item.quantity }})</p>
-        <p>${{ item.total_price }}</p>
-      </div>
-      <a href="{% url 'remove_from_cart' item.id %}">Remove</a>
-    </div>
-  {% endfor %}
-</div>
+            {% if items %}
+            <div class="cart-content">
+                <div class="cart-items">
+                    {% for item in items %}
+                    <div class="cart-item">
+                        <div class="item-image">
+                            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                        </div>
+                        <div class="item-details">
+                            <h3 class="item-title">{{ item.product.name }}</h3>
+                            <p class="item-category">{{ item.product.category.name }}</p>
+                            <div class="item-price">
+                                <span class="price">${{ item.product.price }}</span>
+                            </div>
+                        </div>
+                        <div class="item-quantity">
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="changeQuantity({{ item.id }}, -1)">-</button>
+                                <span class="qty-display">{{ item.quantity }}</span>
+                                <button class="qty-btn" onclick="changeQuantity({{ item.id }}, 1)">+</button>
+                            </div>
+                        </div>
+                        <div class="item-total">
+                            <span class="total-price">${{ item.total_price }}</span>
+                        </div>
+                        <div class="item-actions">
+                            <a href="{% url 'remove_from_cart' item.id %}" class="remove-btn">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
 
-<h3 class="total">Total: ${{ total }}</h3>
+                <div class="cart-summary">
+                    <div class="summary-card">
+                        <h3>Order Summary</h3>
+                        <div class="summary-row">
+                            <span>Subtotal ({{ items|length }} items)</span>
+                            <span>${{ total }}</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Shipping</span>
+                            <span>Free</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Tax</span>
+                            <span>$0.00</span>
+                        </div>
+                        <div class="summary-divider"></div>
+                        <div class="summary-row total-row">
+                            <span>Total</span>
+                            <span class="grand-total">${{ total }}</span>
+                        </div>
+                        <a href="{% url 'checkout' %}" class="checkout-btn">
+                            <i class="fas fa-credit-card"></i> Proceed to Checkout
+                        </a>
+                        <a href="{% url 'home' %}" class="continue-shopping">
+                            <i class="fas fa-arrow-left"></i> Continue Shopping
+                        </a>
+                    </div>
 
-<div class="actions">
-  <a href="{% url 'checkout' %}" class="checkout-btn">Checkout</a>
-  <a href="{% url 'home' %}" class="continue-btn">Continue Shopping</a>
-</div>
+                    <div class="promo-card">
+                        <h4>Have a Promo Code?</h4>
+                        <div class="promo-input">
+                            <input type="text" placeholder="Enter promo code">
+                            <button class="apply-btn">Apply</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="empty-cart">
+                <div class="empty-cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <h2>Your cart is empty</h2>
+                <p>Looks like you haven't added any items to your cart yet.</p>
+                <a href="{% url 'home' %}" class="shop-now-btn">
+                    <i class="fas fa-store"></i> Start Shopping
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </section>
 
 
+              
 </body>
 </html>
