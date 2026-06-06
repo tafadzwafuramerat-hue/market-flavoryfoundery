@@ -4,14 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FAffie - Premium E-commerce Store</title>
+    <title>Flavor Foundry - Premium Gourmet Food Store</title>
+    <meta name="description" content="Order healthy and fresh food anytime. Premium gourmet dishes delivered fast.">
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+
     <!-- Navigation -->
-    <nav class="navbar">
+    <nav class="navbar" id="navbar">
         <div class="nav-container">
             <div class="nav-logo">
                 <i class="fas fa-store"></i>
@@ -20,8 +22,8 @@
             <div class="nav-links">
                 <a href="{% url 'home' %}" class="nav-link active"><i class="fas fa-home"></i> Home</a>
                 <a href="{% url 'cart' %}" class="nav-link cart-link">
-                    <i class="fas fa-shopping-cart"></i> Cart
-                    <span class="cart-count">{{ items|length }}</span>
+                    <i class="fas fa-shopping-basket"></i> Cart
+                    <span class="cart-count">{{ items }}</span>
                 </a>
             </div>
         </div>
@@ -29,56 +31,187 @@
 
     <!-- Hero Section -->
     <section class="hero">
-        <div class="hero-content">
-            <h1 class="hero-title">Discover Amazing Products</h1>
-            <p class="hero-subtitle">Premium quality items at unbeatable prices</p>
-            <a href="#products" class="cta-button">
-                <i class="fas fa-arrow-down"></i> Explore Products
-            </a>
-        </div>
-        <div class="hero-image">
-            <div class="floating-shapes">
-                <div class="shape shape-1"></div>
-                <div class="shape shape-2"></div>
-                <div class="shape shape-3"></div>
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Order Healthy And<br>
+                    <span class="highlight">Fresh Food</span> Any Time
+                </h1>
+                <p class="hero-subtitle">Food makes people think of big family dinners. Savor gourmet creations prepared with premium fresh ingredients, delivered straight to your door.</p>
+                <div class="search-container">
+                    <div class="search-box">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="searchInput" placeholder="Search e.g. Burger, Pizza, Salad...">
+                        <button class="search-btn" onclick="filterProducts()">Search</button>
+                    </div>
+                </div>
             </div>
+        </div>
+
+        <!-- Wave Divider -->
+        <div class="wave-divider">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1130.34,103.77,1059.22,112,985.66,92.83Z" class="shape-fill"></path>
+            </svg>
         </div>
     </section>
 
     <!-- Products Section -->
     <section id="products" class="products-section">
         <div class="container">
-            <h2 class="section-title">Our Products</h2>
-            <div class="products-grid">
+            <div class="section-header">
+                <span class="sub-title">TOP SELLING</span>
+                <h2 class="section-title">Our Products</h2>
+            </div>
+
+            <div class="products-grid" id="productsGrid">
                 {% for product in products %}
-                <div class="product-card">
+                <div class="product-card" data-name="{{ product.name|lower }}" data-category="{{ product.category.name|lower }}">
                     <div class="product-image">
                         <img src="{{ product.image.url }}" alt="{{ product.name }}">
                         <div class="product-overlay">
                             <a href="{% url 'product_detail' product.id %}" class="view-btn">
-                                <i class="fas fa-eye"></i>
+                                <i class="fas fa-expand-alt"></i> View Details
                             </a>
                         </div>
+                        <span class="category-badge">{{ product.category.name }}</span>
                     </div>
                     <div class="product-info">
                         <h3 class="product-title">{{ product.name }}</h3>
-                        <p class="product-category">{{ product.category.name }}</p>
-                        <div class="product-price">
+                        <p class="product-desc">{{ product.description|truncatechars:65 }}</p>
+                        <div class="product-footer">
                             <span class="price">${{ product.price }}</span>
+                            <a href="{% url 'add_to_cart' product.id %}" class="add-to-cart-btn">
+                                <i class="fas fa-plus"></i> Add to Cart
+                            </a>
                         </div>
-                        <a href="{% url 'add_to_cart' product.id %}" class="add-to-cart-btn">
-                            <i class="fas fa-cart-plus"></i> Add to Cart
-                        </a>
                     </div>
                 </div>
+                {% empty %}
+                <div class="no-products">
+                    <i class="fas fa-utensils"></i>
+                    <p>No products available yet.</p>
+                </div>
                 {% endfor %}
+
+                <div class="product-card" data-name="fish fry" data-category="specials">
+                    <div class="product-image">
+                        <img src="/media/products/Fish%20Fry.jpg" alt="Fish Fry">
+                        <div class="product-overlay">
+                            <a href="#" class="view-btn">
+                                <i class="fas fa-expand-alt"></i> View Details
+                            </a>
+                        </div>
+                        <span class="category-badge">Specials</span>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Fish Fry</h3>
+                        <p class="product-desc">Crispy golden fish fry served with zesty lemon and chef’s special seasoning.</p>
+                        <div class="product-footer">
+                            <span class="price">$4.99</span>
+                            <a href="#" class="add-to-cart-btn">
+                                <i class="fas fa-plus"></i> Add to Cart
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-name="beef" data-category="specials">
+                    <div class="product-image">
+                        <img src="/media/products/beef.jpg" alt="Beef">
+                        <div class="product-overlay">
+                            <a href="#" class="view-btn">
+                                <i class="fas fa-expand-alt"></i> View Details
+                            </a>
+                        </div>
+                        <span class="category-badge">Specials</span>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Beef</h3>
+                        <p class="product-desc">Succulent beef steak cooked to perfection with rich gourmet spices.</p>
+                        <div class="product-footer">
+                            <span class="price">$9.99</span>
+                            <a href="#" class="add-to-cart-btn">
+                                <i class="fas fa-plus"></i> Add to Cart
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-  
-   
-           
-   
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section brand-sec">
+                    <div class="footer-logo">
+                        <i class="fas fa-store"></i>
+                        <span>Faffie</span>
+                    </div>
+                    <p>Your premium destination for gourmet quality dishes prepared by top master chefs.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'cart' %}">Cart</a></li>
+                        <li><a href="#products">Our Menu</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-envelope"></i>&nbsp; info@faffie.com</p>
+                    <p><i class="fas fa-phone"></i>&nbsp; +1 (555) 839-4829</p>
+                    <p><i class="fas fa-map-marker-alt"></i>&nbsp; 100 Gourmet Blvd, NY</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Faffie. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function () {
+            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Instant client-side product filter
+        function filterProducts() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const cards = document.querySelectorAll('.product-card');
+            let found = false;
+
+            cards.forEach(card => {
+                const match = card.dataset.name.includes(query) || card.dataset.category.includes(query);
+                card.style.display = match ? 'flex' : 'none';
+                if (match) found = true;
+            });
+
+            let msg = document.getElementById('noResultsMsg');
+            if (!found) {
+                if (!msg) {
+                    msg = document.createElement('div');
+                    msg.id = 'noResultsMsg';
+                    msg.className = 'no-results-msg';
+                    msg.innerHTML = '<i class="fas fa-search-minus"></i><p>No dishes found matching your search.</p>';
+                    document.getElementById('productsGrid').appendChild(msg);
+                }
+            } else if (msg) {
+                msg.remove();
+            }
+        }
+
+        document.getElementById('searchInput').addEventListener('keyup', filterProducts);
+    </script>
+
 </body>
 </html>
