@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Product, CartItem
+import random
 
 def home(request):
     products = Product.objects.all()
@@ -46,7 +47,25 @@ def remove_from_cart(request, id):
 
 
 def checkout(request):
-    CartItem.objects.all().delete()
-    return render(request, 'shop/checkout.html')
+    if request.method == 'POST':
+        payment_method = request.POST.get('payment_method', 'Card')
+        payment_number = request.POST.get('payment_number', '').strip()
+        masked_payment_number = ''
+        if payment_number:
+            masked_payment_number = '****' + payment_number[-4:]
+        order_id = random.randint(10000, 99999)
+        CartItem.objects.all().delete()
+        return render(request, 'shop/checkout.html', {
+            'order_placed': True,
+            'payment_method': payment_method,
+            'payment_number_display': masked_payment_number,
+            'order_id': order_id,
+            'estimated_delivery': '15-25 minutes'
+        })
+
+    return render(request, 'shop/checkout.html', {
+        'order_placed': False,
+        'estimated_delivery': '15-25 minutes'
+    })
 
 # Create your views here.

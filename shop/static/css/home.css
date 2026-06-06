@@ -149,38 +149,16 @@ body {
 
 /* ── Hero ───────────────────────────────────────────── */
 .hero {
-    background: radial-gradient(circle at 70% 30%, rgba(9, 11, 14, 0.45) 0%, rgba(9, 11, 14, 0.20) 100%), url("../images/hero_pizza.png");
+    background: url("../images/hero_pizza.png");
     min-height: 100vh;
     background-repeat: no-repeat;
     background-position: center right;
     background-size: cover;
-    background-blend-mode: normal;
     padding: 150px 0 130px;
     position: relative;
     display: flex;
     align-items: center;
     overflow: hidden;
-}
-
-.hero::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, rgba(9, 11, 14, 0.36) 0%, rgba(9, 11, 14, 0.08) 50%, rgba(9, 11, 14, 0.20) 100%);
-    z-index: 8;
-    pointer-events: none;
-}
-
-.hero::before {
-    content: '';
-    position: absolute;
-    top: 15%;
-    left: -10%;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(102, 126, 234, 0.12) 0%, transparent 70%);
-    border-radius: 50%;
-    pointer-events: none;
 }
 
 .hero-container {
