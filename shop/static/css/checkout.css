@@ -11,6 +11,7 @@ body {
     color: #333;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
+    padding-top: 70px;
 }
 
 .container {
@@ -91,19 +92,19 @@ body {
 
 /* Success Section */
 .success-section {
-    padding: 120px 0 80px;
+    padding: 70px 0 60px;
     display: flex;
     align-items: center;
-    min-height: 100vh;
+    min-height: calc(100vh - 70px);
 }
 
 .success-card {
     background: white;
     border-radius: 20px;
-    padding: 60px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    box-shadow: 0 18px 32px rgba(0, 0, 0, 0.09);
     text-align: center;
-    max-width: 800px;
+    max-width: 720px;
     margin: 0 auto;
 }
 
@@ -119,10 +120,12 @@ body {
         transform: scale(0);
         opacity: 0;
     }
+
     50% {
         transform: scale(1.2);
         opacity: 1;
     }
+
     100% {
         transform: scale(1);
         opacity: 1;
@@ -137,17 +140,45 @@ body {
 }
 
 .success-message {
-    font-size: 1.2rem;
+    font-size: 1.05rem;
     color: #666;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     line-height: 1.6;
 }
 
 .order-details {
     background: #f8f9fa;
     border-radius: 15px;
-    padding: 30px;
-    margin-bottom: 40px;
+    padding: 22px;
+    margin-bottom: 30px;
+}
+
+.payment-field {
+    display: grid;
+    gap: 10px;
+    margin: 0 auto 30px;
+    max-width: 420px;
+}
+
+.field-label {
+    color: #333;
+    font-weight: 600;
+    text-align: left;
+}
+
+.payment-field input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid #e1e5e9;
+    border-radius: 12px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.payment-field input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.12);
 }
 
 .detail-item {
@@ -170,6 +201,39 @@ body {
 .value {
     color: #667eea;
     font-weight: 500;
+}
+
+.payment-form {
+    text-align: left;
+}
+
+.payment-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 22px;
+    border-radius: 14px;
+    background: #f8f9fa;
+    border: 2px solid #e1e5e9;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.radio-label input {
+    accent-color: #667eea;
+}
+
+.radio-label:hover {
+    border-color: #667eea;
+    background: #eef1fd;
 }
 
 .success-actions {

@@ -512,8 +512,9 @@ body {
         text-align: center;
     }
 }
-    background: blue;
-    transform: scale(1.05);
+
+background: blue;
+transform: scale(1.05);
 }
 
 /* Continue shopping button */
