@@ -119,7 +119,7 @@ STATIC_URL = '/static/'
 # Tell Django where to find the project's static files during development
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
-    os.path.join(BASE_DIR, 'shop', 'static'),
+    # os.path.join(BASE_DIR, 'shop', 'static'),
 ]
 
 
