@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-dbqi8@46l-4fdfj3e0l=2z8%l3_xgia4&6w%wm=t7nmoj6=7u3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['market-flavoryfoundery-production.up.railway.app']
+ALLOWED_HOSTS = ['market-flavoryfoundery-production.up.railway.app', '127.0.0.1']
 
 
 # Application definition
